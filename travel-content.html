@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Content | Ranjit Kumar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-[#0b0f14] text-white">
+    <div class="mx-auto max-w-6xl px-6 py-10">
+      <div class="flex items-center justify-between gap-4">
+        <a
+          href="./index.html#skills"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/10"
+        >
+          <span aria-hidden="true">←</span>
+          Back
+        </a>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="./index.html"
+            class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/10"
+          >
+            Home
+          </a>
+          <a
+            href="https://www.instagram.com/ranjit_kumar_90?igsh=OGJxdzQ1Znc0MWdv"
+            target="_blank"
+            rel="noreferrer"
+            class="rounded-full bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-300 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110"
+          >
+            Open Instagram
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <p class="text-xs font-bold uppercase tracking-[0.35em] text-white/60">
+          Travel Content
+        </p>
+        <h1 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
+          Instagram Highlights
+        </h1>
+        <p class="mt-3 max-w-2xl text-white/70">
+          Tap a highlight to open it. Send me your highlight links and I’ll plug
+          them in here.
+        </p>
+      </div>
+
+      <section
+        class="mt-10 overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 shadow-2xl"
+      >
+        <div class="flex items-center justify-between gap-4">
+          <p class="text-sm font-semibold text-white/80">Highlights</p>
+          <button
+            id="scrollNext"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/90 transition hover:bg-white/15"
+            aria-label="Scroll highlights"
+            type="button"
+          >
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+
+        <div
+          id="highlightsRow"
+          class="mt-5 flex gap-6 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        ></div>
+      </section>
+
+      <footer class="mt-10 text-xs text-white/50">
+        © 2026 Ranjit Kumar
+      </footer>
+    </div>
+
+    <script>
+      // Placeholder data — replace with your real highlight URLs when you send them.
+      const highlights = [
+        {
+          label: "VARANASI",
+          href: "https://www.instagram.com/stories/highlights/17932954557057682/",
+        },
+        {
+          label: "VRINDAVAN",
+          href: "https://www.instagram.com/stories/highlights/18514470880071669/",
+        },
+        {
+          label: "AYODHYA",
+          href: "https://www.instagram.com/stories/highlights/17862462291433722/",
+        },
+        {
+          label: "GURPA HILL",
+          href: "https://www.instagram.com/stories/highlights/18542966188026275/",
+        },
+        {
+          label: "DELHI",
+          href: "https://www.instagram.com/stories/highlights/17848788726615100/",
+        },
+        {
+          label: "DURGA PUJA",
+          href: "https://www.instagram.com/stories/highlights/17928048969107380/",
+        },
+        {
+          label: "KOLKATA",
+          href: "https://www.instagram.com/stories/highlights/17922301026157284/",
+        },
+      ];
+
+      const row = document.getElementById("highlightsRow");
+
+      function highlightItem({ label, href }) {
+        const safeHref = href && href !== "#" ? href : "javascript:void(0)";
+        const isDisabled = safeHref === "javascript:void(0)";
+
+        const el = document.createElement("a");
+        el.href = safeHref;
+        el.target = isDisabled ? "" : "_blank";
+        el.rel = isDisabled ? "" : "noreferrer";
+        el.className =
+          "group block w-[110px] shrink-0 text-center " +
+          (isDisabled ? "cursor-default opacity-80" : "hover:opacity-100");
+
+        el.innerHTML = `
+          <div class="mx-auto h-[92px] w-[92px] rounded-full bg-white/10 p-[6px] shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
+            <div class="h-full w-full rounded-full bg-gradient-to-br from-slate-700 to-slate-900 p-[3px] transition group-hover:from-slate-600 group-hover:to-slate-950">
+              <div class="h-full w-full overflow-hidden rounded-full bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_rgba(255,255,255,0.02))]">
+                <div class="flex h-full w-full items-center justify-center text-[26px] font-black tracking-tight text-white/90">
+                  ${label.slice(0, 1)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center justify-center gap-2 text-[12px] font-extrabold tracking-wide text-white/90">
+            <span aria-hidden="true">📍</span>
+            <span class="truncate">${label}</span>
+          </div>
+        `;
+
+        if (isDisabled) {
+          el.setAttribute("aria-disabled", "true");
+          el.title = "Send highlight links to enable";
+        }
+
+        return el;
+      }
+
+      highlights.forEach((h) => row.appendChild(highlightItem(h)));
+
+      document.getElementById("scrollNext").addEventListener("click", () => {
+        row.scrollBy({ left: 340, behavior: "smooth" });
+      });
+    </script>
+  </body>
+</html>
